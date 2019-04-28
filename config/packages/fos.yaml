@@ -1,0 +1,38 @@
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: App\Entity\User\User
+    from_email:
+        address: "%security_mail%"
+        sender_name: "%security_name%"
+
+fos_rest:
+    exception:
+        enabled: true
+    body_converter:
+        enabled: true
+    param_fetcher_listener: true
+    body_listener: true
+    disable_csrf_role: ROLE_API
+    format_listener:
+        rules:
+            - { path: '^/', priorities: ['json', 'xml', 'html'], fallback_format: json, prefer_extension: false }
+    view:
+        view_response_listener: false
+    serializer:
+        serialize_null: true
+
+fos_oauth_server:
+    db_driver: orm
+    client_class:        App\Entity\Auth\Client
+    access_token_class:  App\Entity\Auth\AccessToken
+    refresh_token_class: App\Entity\Auth\RefreshToken
+    auth_code_class:     App\Entity\Auth\AuthCode
+
+    service:
+        user_provider: fos_user.user_provider.username_email
+        options:
+            access_token_lifetime: '%oauth2_token_ttl%'
+            refresh_token_lifetime: '%oauth2_refresh_token_ttl%'
+            supported_scopes: user
+            token_type: Bearer

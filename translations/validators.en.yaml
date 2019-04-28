@@ -1,0 +1,6 @@
+entity.constraints.not_null: Can be null!
+
+page.limit.max: Max items per page {{ limit }}
+page.limit.min: Number of items can't be less than {{ limit }}
+
+exception.null_argument.trait_aware: The argument wasn't injected
